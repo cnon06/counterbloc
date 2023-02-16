@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'countercubit.dart';
+import 'counterbloc.dart';
+
+import 'counterevent.dart';
+import 'counterstate.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -17,19 +20,25 @@ class Home extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            BlocBuilder<CounterCubit, int>(
-              builder: (context, count) => Center(child: Text('$count',style: const TextStyle(fontSize: 50,fontWeight: FontWeight.bold),)),
+            BlocBuilder<CounterBloc, CounterState>(
+              builder: (context, count) => Center(
+                  child: Text(
+                '${count.counter}',
+                style:
+                    const TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+              )),
             ),
-            const SizedBox(height: 25,),
+            const SizedBox(
+              height: 25,
+            ),
             ElevatedButton(
                 onPressed: () {
-                  context.read<CounterCubit>().increment();
+                  context.read<CounterBloc>().add(IncreaseCounterEvent());
                 },
                 child: const Text('Increase')),
-
-                ElevatedButton(
+            ElevatedButton(
                 onPressed: () {
-                  context.read<CounterCubit>().decrement();
+                   context.read<CounterBloc>().add(DecreaseCounterEvent());
                 },
                 child: const Text('Decrease')),
           ],
